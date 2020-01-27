@@ -225,26 +225,43 @@ public abstract class AbstractAwsIotDevice {
         syncTask = client.scheduleRoutineTask(new Runnable() {
             @Override
             public void run() {
-                if (!isCommandReady(Command.UPDATE)) {
-                    LOGGER.fine("Device not ready for reporting");
-                    return;
-                }
-                
-                long reportVersion = localVersion.get();
-                if (enableVersioning && reportVersion < 0) {
-                    // if versioning is enabled, synchronize the version first
-                    LOGGER.fine("Starting version sync");
-                    startVersionSync();
-                    return;
-                }
-
-                String jsonState = onDeviceReport();
-                if (jsonState != null) {
-                    LOGGER.fine("Sending device report");
-                    sendDeviceReport(reportVersion, jsonState);
-                }
+                sendDeviceReport("Schedule routine task inside AbstractAwsIotDevice class");
             }
         }, 0l, reportInterval);
+    }
+
+    private Object sendDeviceReportLock = new Object();
+
+    public void sendDeviceReport()
+    {
+        sendDeviceReport("Outside AbstractAwsIotDevice class");
+    }
+
+    private void sendDeviceReport(String calledFrom)
+    {
+        synchronized(sendDeviceReportLock)
+        {
+            System.out.println("Send device report called from: "+calledFrom);
+
+            if (!isCommandReady(Command.UPDATE)) {
+                LOGGER.fine("Device not ready for reporting");
+                return;
+            }
+
+            long reportVersion = localVersion.get();
+            if (enableVersioning && reportVersion < 0) {
+                // if versioning is enabled, synchronize the version first
+                LOGGER.fine("Starting version sync");
+                startVersionSync();
+                return;
+            }
+
+            String jsonState = onDeviceReport();
+            if (jsonState != null) {
+                LOGGER.fine("Sending device report");
+                sendDeviceReport(reportVersion, jsonState);
+            }
+        }
     }
 
     protected void stopSync() {

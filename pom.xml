@@ -1,6 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.amazonaws</groupId>
+  <groupId>io.danieljph</groupId>
   <artifactId>aws-iot-device-sdk-java-pom</artifactId>
   <version>1.3.4</version>
   <packaging>pom</packaging>
@@ -14,7 +14,7 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
-  <developers>
+  <!--<developers>
     <developer>
       <id>amazonwebservices</id>
       <organization>Amazon Web Services</organization>
@@ -23,10 +23,10 @@
         <role>developer</role>
       </roles>
     </developer>
-  </developers>
-  <scm>
+  </developers>-->
+  <!--<scm>
     <url>https://github.com/aws/aws-iot-device-sdk-java.git</url>
-  </scm>
+  </scm>-->
   <modules>
     <module>aws-iot-device-sdk-java</module>
     <module>aws-iot-device-sdk-java-samples</module>
@@ -35,14 +35,19 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <distributionManagement>
-    <snapshotRepository>
+    <repository>
+      <id>bintray-danieljph-rc-repos</id>
+      <name>danieljph-rc-repos</name>
+      <url>https://api.bintray.com/maven/danieljph/rc-repos/aws-iot-device-sdk-java/;publish=1</url>
+    </repository>
+    <!--<snapshotRepository>
       <id>ossrh</id>
       <url>https://aws.oss.sonatype.org/content/repositories/snapshots</url>
-    </snapshotRepository>
+    </snapshotRepository>-->
   </distributionManagement>
   <build>
     <plugins>
-      <plugin>
+      <!--<plugin>
         <groupId>org.sonatype.plugins</groupId>
         <artifactId>nexus-staging-maven-plugin</artifactId>
         <version>1.6.3</version>
@@ -52,7 +57,7 @@
           <nexusUrl>https://aws.oss.sonatype.org/</nexusUrl>
           <autoReleaseAfterClose>false</autoReleaseAfterClose>
         </configuration>
-      </plugin>
+      </plugin>-->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -63,7 +68,7 @@
           <target>1.7</target>
         </configuration>
       </plugin>
-      <plugin>
+      <!--<plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-gpg-plugin</artifactId>
         <version>1.6</version>
@@ -76,7 +81,7 @@
             </goals>
           </execution>
         </executions>
-      </plugin>
+      </plugin>-->
    </plugins>
   </build>
 </project>
